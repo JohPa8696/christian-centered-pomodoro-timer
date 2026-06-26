@@ -6,15 +6,19 @@ import { PhaseLabel } from '../components/PhaseLabel';
 import { CycleDots } from '../components/CycleDots';
 import { Controls } from '../components/Controls';
 import { SESSIONS_PER_CYCLE, PHASE_COLORS } from '../lib/constants';
+import { usePomodoro } from '../hooks/usePomodoro';
 
 export function TimerScreen() {
-  // Temporary hardcoded values for static UI
-  const phase = 'work';
-  const minutes = 25;
-  const seconds = 0;
-  const currentSession = 1;
-  const progress = 0;
-  const isRunning = false;
+  const {
+    phase,
+    minutes,
+    seconds,
+    currentSession,
+    progress,
+    isRunning,
+    startPause,
+    skip,
+  } = usePomodoro();
 
   return (
     <SafeAreaView className="flex-1 bg-neutral-950">
@@ -46,8 +50,8 @@ export function TimerScreen() {
         {/* Controls */}
         <Controls
           isRunning={isRunning}
-          onStartPause={() => console.log('Start/Pause')}
-          onSkip={() => console.log('Skip')}
+          onStartPause={startPause}
+          onSkip={skip}
         />
       </View>
     </SafeAreaView>
