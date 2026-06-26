@@ -6,7 +6,7 @@ export function Controls({ isRunning, onStartPause, onSkip }: ControlsProps) {
     <View className="flex-row gap-4">
       <Pressable
         onPress={onStartPause}
-        className="bg-blue-500 px-8 py-4 rounded-full"
+        className="bg-blue-500 px-8 py-4 rounded-full active:opacity-80"
       >
         <Text className="text-white text-lg font-semibold">
           {isRunning ? 'Pause' : 'Start'}
@@ -15,7 +15,7 @@ export function Controls({ isRunning, onStartPause, onSkip }: ControlsProps) {
 
       <Pressable
         onPress={onSkip}
-        className="bg-neutral-700 px-8 py-4 rounded-full"
+        className="bg-neutral-700 px-8 py-4 rounded-full active:opacity-80"
       >
         <Text className="text-white text-lg font-semibold">
           Skip
