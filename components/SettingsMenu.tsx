@@ -6,6 +6,7 @@ interface SettingsMenuProps {
   onClose: () => void;
   onOpenStats: () => void;
   onOpenSound: () => void;
+  onOpenDurations: () => void;
 }
 
 // Menu rows. `disabled` items are shown as "coming soon" placeholders so the
@@ -14,23 +15,30 @@ type Row = {
   icon: keyof typeof Ionicons.glyphMap;
   label: string;
   sub: string;
-  action: 'stats' | 'sound' | null;
+  action: 'stats' | 'sound' | 'durations' | null;
 };
 
 const ROWS: Row[] = [
-  { icon: 'stats-chart', label: 'Stats', sub: 'Focus history & streak', action: 'stats' },
+  { icon: 'time-outline', label: 'Durations', sub: 'Focus & break lengths', action: 'durations' },
   { icon: 'musical-note', label: 'Alarm Sound', sub: 'Choose completion sound', action: 'sound' },
-  { icon: 'time-outline', label: 'Durations', sub: 'Coming soon', action: null },
+  { icon: 'stats-chart', label: 'Stats', sub: 'Focus history & streak', action: 'stats' },
 ];
 
 /**
- * Settings bottom-sheet — a single entry point that routes to Stats, Alarm
- * Sound, and (future) options. Keeps the timer header to one clean icon.
+ * Settings bottom-sheet — a single entry point that routes to Durations, Alarm
+ * Sound, and Stats. Keeps the timer header to one clean icon.
  */
-export function SettingsMenu({ visible, onClose, onOpenStats, onOpenSound }: SettingsMenuProps) {
+export function SettingsMenu({
+  visible,
+  onClose,
+  onOpenStats,
+  onOpenSound,
+  onOpenDurations,
+}: SettingsMenuProps) {
   const handlePress = (action: Row['action']) => {
     if (action === 'stats') onOpenStats();
     else if (action === 'sound') onOpenSound();
+    else if (action === 'durations') onOpenDurations();
   };
 
   return (

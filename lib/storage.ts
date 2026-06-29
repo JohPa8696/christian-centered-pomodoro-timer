@@ -5,6 +5,7 @@ import type { Phase } from './types';
 const KEYS = {
   timerState: '@pomodoro/timerState',
   soundId: '@pomodoro/soundId',
+  durations: '@pomodoro/durations',
 } as const;
 
 /**
@@ -75,6 +76,38 @@ export async function loadSoundId(): Promise<string | null> {
     return await AsyncStorage.getItem(KEYS.soundId);
   } catch (error) {
     console.error('Failed to load sound id:', error);
+    return null;
+  }
+}
+
+/** Durations persisted in seconds, keyed by phase. */
+export interface PersistedDurations {
+  work: number;
+  shortBreak: number;
+  longBreak: number;
+}
+
+/**
+ * Save custom phase durations (in seconds).
+ */
+export async function saveDurations(durations: PersistedDurations): Promise<void> {
+  try {
+    await AsyncStorage.setItem(KEYS.durations, JSON.stringify(durations));
+  } catch (error) {
+    console.error('Failed to save durations:', error);
+  }
+}
+
+/**
+ * Load custom phase durations. Returns null if none saved or on error.
+ */
+export async function loadDurations(): Promise<PersistedDurations | null> {
+  try {
+    const raw = await AsyncStorage.getItem(KEYS.durations);
+    if (!raw) return null;
+    return JSON.parse(raw) as PersistedDurations;
+  } catch (error) {
+    console.error('Failed to load durations:', error);
     return null;
   }
 }

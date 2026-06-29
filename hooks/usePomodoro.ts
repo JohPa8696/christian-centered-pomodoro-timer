@@ -4,6 +4,7 @@ import { DURATIONS, PHASE_LABELS } from '../lib/constants';
 import { scheduleNotification, cancelAllNotifications } from '../lib/notifications';
 import { saveTimerState, loadTimerState } from '../lib/storage';
 import { recordSession } from '../lib/stats';
+import { getActiveDurations, loadActiveDurations } from '../lib/durations';
 import {
   playCompletionAlarm,
   stopCompletionAlarm,
@@ -33,6 +34,8 @@ export function usePomodoro() {
   // Load persisted state on mount
   useEffect(() => {
     (async () => {
+      // Load custom durations first so fresh-start init uses the right values.
+      await loadActiveDurations();
       const saved = await loadTimerState();
       if (saved) {
         // Always restore phase/session/duration so dots + colors are correct.
@@ -62,6 +65,12 @@ export function usePomodoro() {
           setTimeRemaining(saved.timeRemaining);
           setIsRunning(false);
         }
+      } else {
+        // No saved timer → start fresh on a work phase using the active
+        // (possibly custom) work duration rather than the hardcoded default.
+        const work = getActiveDurations().work;
+        setPhaseDuration(work);
+        setTimeRemaining(work);
       }
       setIsHydrated(true);
     })();
@@ -230,26 +239,28 @@ export function usePomodoro() {
     setIsRunning(true);
   };
 
-  // Helper function to determine next phase
+  // Helper function to determine next phase. Reads the *active* durations at
+  // transition time, so custom-duration changes take effect from the next phase.
   const advancePhase = () => {
+    const durations = getActiveDurations();
     if (phase === 'work') {
       if (currentSession === 4) {
         // After 4th work session → long break
         setPhase('longBreak');
-        setPhaseDuration(DURATIONS.longBreak);
-        setTimeRemaining(DURATIONS.longBreak);
+        setPhaseDuration(durations.longBreak);
+        setTimeRemaining(durations.longBreak);
         setCurrentSession(1); // Reset cycle
       } else {
         // After work sessions 1-3 → short break
         setPhase('shortBreak');
-        setPhaseDuration(DURATIONS.shortBreak);
-        setTimeRemaining(DURATIONS.shortBreak);
+        setPhaseDuration(durations.shortBreak);
+        setTimeRemaining(durations.shortBreak);
       }
     } else {
       // After any break → work
       setPhase('work');
-      setPhaseDuration(DURATIONS.work);
-      setTimeRemaining(DURATIONS.work);
+      setPhaseDuration(durations.work);
+      setTimeRemaining(durations.work);
       if (phase === 'shortBreak') {
         setCurrentSession((prev) => prev + 1);
       }

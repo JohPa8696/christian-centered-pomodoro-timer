@@ -10,6 +10,7 @@ import { Controls } from '../components/Controls';
 import { SettingsMenu } from '../components/SettingsMenu';
 import { SoundPicker } from '../components/SoundPicker';
 import { StatsSheet } from '../components/StatsSheet';
+import { DurationsSheet } from '../components/DurationsSheet';
 import { SESSIONS_PER_CYCLE, PHASE_COLORS } from '../lib/constants';
 import { usePomodoro } from '../hooks/usePomodoro';
 
@@ -17,6 +18,7 @@ export function TimerScreen() {
   const [settingsVisible, setSettingsVisible] = useState(false);
   const [soundPickerVisible, setSoundPickerVisible] = useState(false);
   const [statsVisible, setStatsVisible] = useState(false);
+  const [durationsVisible, setDurationsVisible] = useState(false);
 
   // Open a sub-sheet from the settings menu. Close the menu first, then open the
   // chosen sheet after a beat — presenting a new modal while another is still
@@ -28,6 +30,10 @@ export function TimerScreen() {
   const openSound = () => {
     setSettingsVisible(false);
     setTimeout(() => setSoundPickerVisible(true), 250);
+  };
+  const openDurations = () => {
+    setSettingsVisible(false);
+    setTimeout(() => setDurationsVisible(true), 250);
   };
 
   const {
@@ -103,6 +109,7 @@ export function TimerScreen() {
         onClose={() => setSettingsVisible(false)}
         onOpenStats={openStats}
         onOpenSound={openSound}
+        onOpenDurations={openDurations}
       />
 
       <SoundPicker
@@ -113,6 +120,11 @@ export function TimerScreen() {
       <StatsSheet
         visible={statsVisible}
         onClose={() => setStatsVisible(false)}
+      />
+
+      <DurationsSheet
+        visible={durationsVisible}
+        onClose={() => setDurationsVisible(false)}
       />
     </SafeAreaView>
   );
