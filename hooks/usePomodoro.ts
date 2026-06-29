@@ -231,14 +231,6 @@ export function usePomodoro() {
     advancePhase();
   };
 
-  // DEV ONLY: jump to ~3s before the phase ends and start running, so the
-  // natural completion flow (sound + auto-advance) fires for testing.
-  const jumpToEnd = () => {
-    cancelPendingAdvance();
-    setTimeRemaining(3);
-    setIsRunning(true);
-  };
-
   // Helper function to determine next phase. Reads the *active* durations at
   // transition time, so custom-duration changes take effect from the next phase.
   const advancePhase = () => {
@@ -283,6 +275,5 @@ export function usePomodoro() {
     progress,
     startPause,
     skip,
-    jumpToEnd,
   };
 }

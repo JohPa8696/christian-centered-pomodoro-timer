@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Pressable, Text } from 'react-native';
+import { View, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { ProgressRing } from '../components/ProgressRing';
@@ -45,7 +45,6 @@ export function TimerScreen() {
     isRunning,
     startPause,
     skip,
-    jumpToEnd,
   } = usePomodoro();
 
   return (
@@ -91,17 +90,6 @@ export function TimerScreen() {
           onStartPause={startPause}
           onSkip={skip}
         />
-
-        {/* DEV ONLY: jump to 3s left to test completion chime/buzz quickly.
-            __DEV__ is false in production builds, so this auto-hides on ship. */}
-        {__DEV__ && (
-          <Pressable
-            onPress={jumpToEnd}
-            className="mt-10 bg-amber-700/40 border border-amber-600 px-4 py-2 rounded"
-          >
-            <Text className="text-amber-300 text-xs">DEV: jump to 0:03</Text>
-          </Pressable>
-        )}
       </View>
 
       <SettingsMenu
