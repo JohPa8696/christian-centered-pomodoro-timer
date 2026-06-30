@@ -1,12 +1,11 @@
 # Sacred Focus — Catholic Pomodoro Timer
 
-A faith-centered **Pomodoro timer** for Catholics and Christians. Work in
-focused Pomodoro sessions, and during each break receive a calming verse of
-Scripture — turning rest between work into a small moment of spiritual
-re-centering.
+**A Pomodoro timer with a Christian touch.** Work in focused Pomodoro sessions,
+and during each break receive a calming verse of Scripture — turning rest
+between work into a small moment of spiritual re-centering.
 
 *A Pomodoro / focus timer with Scripture, prayer-friendly breaks, and a
-distraction-free design.*
+distraction-free design, for Catholics and Christians.*
 
 > *"Come to me, all you that labour, and are burdened, and I will refresh you."*
 > — Matthew 11:28 (Douay-Rheims)
