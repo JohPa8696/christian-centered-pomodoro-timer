@@ -36,6 +36,10 @@ yarn-error.*
 # temporary work (execution plans, scripts, datasets)
 .tmp/
 
+# local tooling config (Claude Code) — kept on disk, not part of the app
+.claude/
+skills-lock.json
+
 # typescript
 *.tsbuildinfo
 
