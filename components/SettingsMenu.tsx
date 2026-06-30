@@ -7,6 +7,7 @@ interface SettingsMenuProps {
   onOpenStats: () => void;
   onOpenSound: () => void;
   onOpenDurations: () => void;
+  onOpenChant: () => void;
 }
 
 // Menu rows. `disabled` items are shown as "coming soon" placeholders so the
@@ -15,18 +16,19 @@ type Row = {
   icon: keyof typeof Ionicons.glyphMap;
   label: string;
   sub: string;
-  action: 'stats' | 'sound' | 'durations' | null;
+  action: 'stats' | 'sound' | 'durations' | 'chant' | null;
 };
 
 const ROWS: Row[] = [
   { icon: 'time-outline', label: 'Durations', sub: 'Focus & break lengths', action: 'durations' },
+  { icon: 'leaf-outline', label: 'Break Chant', sub: 'Gregorian chant during breaks', action: 'chant' },
   { icon: 'musical-note', label: 'Alarm Sound', sub: 'Choose completion sound', action: 'sound' },
   { icon: 'stats-chart', label: 'Stats', sub: 'Focus history & streak', action: 'stats' },
 ];
 
 /**
- * Settings bottom-sheet — a single entry point that routes to Durations, Alarm
- * Sound, and Stats. Keeps the timer header to one clean icon.
+ * Settings bottom-sheet — a single entry point that routes to Durations, Break
+ * Chant, Alarm Sound, and Stats. Keeps the timer header to one clean icon.
  */
 export function SettingsMenu({
   visible,
@@ -34,11 +36,13 @@ export function SettingsMenu({
   onOpenStats,
   onOpenSound,
   onOpenDurations,
+  onOpenChant,
 }: SettingsMenuProps) {
   const handlePress = (action: Row['action']) => {
     if (action === 'stats') onOpenStats();
     else if (action === 'sound') onOpenSound();
     else if (action === 'durations') onOpenDurations();
+    else if (action === 'chant') onOpenChant();
   };
 
   return (

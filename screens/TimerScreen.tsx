@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { View, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -11,16 +11,19 @@ import { SettingsMenu } from '../components/SettingsMenu';
 import { SoundPicker } from '../components/SoundPicker';
 import { StatsSheet } from '../components/StatsSheet';
 import { DurationsSheet } from '../components/DurationsSheet';
+import { ChantSheet } from '../components/ChantSheet';
 import { VerseDisplay } from '../components/VerseDisplay';
 import { SESSIONS_PER_CYCLE, PHASE_COLORS } from '../lib/constants';
 import { usePomodoro } from '../hooks/usePomodoro';
 import { getVerseByIndex } from '../lib/verses';
+import { startChant, stopChant } from '../lib/chants';
 
 export function TimerScreen() {
   const [settingsVisible, setSettingsVisible] = useState(false);
   const [soundPickerVisible, setSoundPickerVisible] = useState(false);
   const [statsVisible, setStatsVisible] = useState(false);
   const [durationsVisible, setDurationsVisible] = useState(false);
+  const [chantVisible, setChantVisible] = useState(false);
 
   // Open a sub-sheet from the settings menu. Close the menu first, then open the
   // chosen sheet after a beat — presenting a new modal while another is still
@@ -36,6 +39,10 @@ export function TimerScreen() {
   const openDurations = () => {
     setSettingsVisible(false);
     setTimeout(() => setDurationsVisible(true), 250);
+  };
+  const openChant = () => {
+    setSettingsVisible(false);
+    setTimeout(() => setChantVisible(true), 250);
   };
 
   const {
@@ -54,6 +61,18 @@ export function TimerScreen() {
   // experience). Work phases stay quiet and focused.
   const isBreak = phase === 'shortBreak' || phase === 'longBreak';
   const verse = getVerseByIndex(breakCount);
+
+  // Play a chant softly while a break is actively running; stop it once work
+  // resumes, the timer pauses, or the screen unmounts. (No-ops if chants are
+  // disabled or no audio files are bundled yet.)
+  useEffect(() => {
+    if (isBreak && isRunning) {
+      startChant();
+    } else {
+      stopChant();
+    }
+    return () => stopChant();
+  }, [isBreak, isRunning]);
 
   return (
     <SafeAreaView className="flex-1 bg-neutral-950">
@@ -113,6 +132,7 @@ export function TimerScreen() {
         onOpenStats={openStats}
         onOpenSound={openSound}
         onOpenDurations={openDurations}
+        onOpenChant={openChant}
       />
 
       <SoundPicker
@@ -128,6 +148,11 @@ export function TimerScreen() {
       <DurationsSheet
         visible={durationsVisible}
         onClose={() => setDurationsVisible(false)}
+      />
+
+      <ChantSheet
+        visible={chantVisible}
+        onClose={() => setChantVisible(false)}
       />
     </SafeAreaView>
   );
