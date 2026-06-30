@@ -19,6 +19,8 @@ export function usePomodoro() {
   const [isRunning, setIsRunning] = useState(false);
   const [currentSession, setCurrentSession] = useState(1);
   const [phaseDuration, setPhaseDuration] = useState(DURATIONS.work);
+  // Increments each time a break begins, so each break can show a fresh verse.
+  const [breakCount, setBreakCount] = useState(0);
 
   // Track when app goes to background
   const backgroundTimestamp = useRef<number | null>(null);
@@ -236,6 +238,8 @@ export function usePomodoro() {
   const advancePhase = () => {
     const durations = getActiveDurations();
     if (phase === 'work') {
+      // Entering a break → bump the counter so a fresh verse is shown.
+      setBreakCount((prev) => prev + 1);
       if (currentSession === 4) {
         // After 4th work session → long break
         setPhase('longBreak');
@@ -270,6 +274,7 @@ export function usePomodoro() {
     isRunning,
     currentSession,
     phaseDuration,
+    breakCount,
     minutes,
     seconds,
     progress,

@@ -11,8 +11,10 @@ import { SettingsMenu } from '../components/SettingsMenu';
 import { SoundPicker } from '../components/SoundPicker';
 import { StatsSheet } from '../components/StatsSheet';
 import { DurationsSheet } from '../components/DurationsSheet';
+import { VerseDisplay } from '../components/VerseDisplay';
 import { SESSIONS_PER_CYCLE, PHASE_COLORS } from '../lib/constants';
 import { usePomodoro } from '../hooks/usePomodoro';
+import { getVerseByIndex } from '../lib/verses';
 
 export function TimerScreen() {
   const [settingsVisible, setSettingsVisible] = useState(false);
@@ -43,9 +45,15 @@ export function TimerScreen() {
     currentSession,
     progress,
     isRunning,
+    breakCount,
     startPause,
     skip,
   } = usePomodoro();
+
+  // During breaks, show a Scripture verse (the heart of the faith-centered
+  // experience). Work phases stay quiet and focused.
+  const isBreak = phase === 'shortBreak' || phase === 'longBreak';
+  const verse = getVerseByIndex(breakCount);
 
   return (
     <SafeAreaView className="flex-1 bg-neutral-950">
@@ -77,12 +85,19 @@ export function TimerScreen() {
         </View>
 
         {/* Cycle Dots */}
-        <View className="mb-12">
+        <View className="mb-8">
           <CycleDots
             currentSession={currentSession}
             totalSessions={SESSIONS_PER_CYCLE}
           />
         </View>
+
+        {/* Scripture during breaks — the faith-centered rest moment */}
+        {isBreak && (
+          <View className="mb-10 min-h-[120px] justify-center">
+            <VerseDisplay verse={verse} />
+          </View>
+        )}
 
         {/* Controls */}
         <Controls
