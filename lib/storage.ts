@@ -47,17 +47,6 @@ export async function loadTimerState(): Promise<PersistedTimerState | null> {
 }
 
 /**
- * Clear the persisted timer state.
- */
-export async function clearTimerState(): Promise<void> {
-  try {
-    await AsyncStorage.removeItem(KEYS.timerState);
-  } catch (error) {
-    console.error('Failed to clear timer state:', error);
-  }
-}
-
-/**
  * Save the chosen completion-sound id.
  */
 export async function saveSoundId(id: string): Promise<void> {

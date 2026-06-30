@@ -1,13 +1,5 @@
 export type Phase = 'work' | 'shortBreak' | 'longBreak';
 
-export interface PomodoroState {
-  phase: Phase;
-  timeRemaining: number;      // seconds
-  isRunning: boolean;
-  currentSession: number;     // 1-4
-  phaseDuration: number;      // seconds (total duration of current phase)
-}
-
 export interface ProgressRingProps {
   progress: number;           // 0 to 1
   color: string;

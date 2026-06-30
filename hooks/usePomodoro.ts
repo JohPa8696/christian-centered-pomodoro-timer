@@ -153,8 +153,6 @@ export function usePomodoro() {
           `Time for ${getNextPhaseLabel()}`,
           timeRemaining
         );
-
-        console.log('App backgrounded, notification scheduled for', timeRemaining, 'seconds');
       } else if (nextAppState === 'active' && backgroundTimestamp.current !== null) {
         // App came back to foreground
         const elapsed = Math.floor((Date.now() - backgroundTimestamp.current) / 1000);
@@ -162,8 +160,6 @@ export function usePomodoro() {
 
         // Cancel any pending notifications
         await cancelAllNotifications();
-
-        console.log('App foregrounded, elapsed:', elapsed, 'seconds');
 
         // Recalculate time remaining
         setTimeRemaining((prev) => {

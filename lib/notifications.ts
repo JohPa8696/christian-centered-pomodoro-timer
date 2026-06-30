@@ -1,10 +1,12 @@
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 
-// Configure how notifications are handled when app is in foreground
+// Configure how notifications are handled when app is in foreground.
+// SDK 54 split the old `shouldShowAlert` into `shouldShowBanner` + `shouldShowList`.
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
-    shouldShowAlert: true,
+    shouldShowBanner: true,
+    shouldShowList: true,
     shouldPlaySound: true,
     shouldSetBadge: false,
   }),
@@ -24,7 +26,7 @@ export async function requestNotificationPermissions(): Promise<boolean> {
   }
 
   if (finalStatus !== 'granted') {
-    console.log('Failed to get notification permissions');
+    console.warn('Notification permissions not granted');
     return false;
   }
 
@@ -66,13 +68,6 @@ export async function scheduleNotification(
     },
   });
   return id;
-}
-
-/**
- * Cancel a scheduled notification
- */
-export async function cancelNotification(notificationId: string): Promise<void> {
-  await Notifications.cancelScheduledNotificationAsync(notificationId);
 }
 
 /**
