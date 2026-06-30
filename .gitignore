@@ -33,6 +33,9 @@ yarn-error.*
 # local env files
 .env*.local
 
+# temporary work (execution plans, scripts, datasets)
+.tmp/
+
 # typescript
 *.tsbuildinfo
 
