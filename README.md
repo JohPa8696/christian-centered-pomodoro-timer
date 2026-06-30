@@ -1,8 +1,12 @@
-# Sacred Focus
+# Sacred Focus — Catholic Pomodoro Timer
 
-A faith-centered Pomodoro focus timer for Catholics and Christians. Work in
-focused sessions, and during each break receive a calming verse of Scripture —
-turning rest between work into a small moment of spiritual re-centering.
+A faith-centered **Pomodoro timer** for Catholics and Christians. Work in
+focused Pomodoro sessions, and during each break receive a calming verse of
+Scripture — turning rest between work into a small moment of spiritual
+re-centering.
+
+*A Pomodoro / focus timer with Scripture, prayer-friendly breaks, and a
+distraction-free design.*
 
 > *"Come to me, all you that labour, and are burdened, and I will refresh you."*
 > — Matthew 11:28 (Douay-Rheims)
@@ -69,6 +73,15 @@ hooks/usePomodoro.ts     Timer state machine, persistence, background handling
 components/              UI components (ring, dots, verse, settings sheets, …)
 lib/                     Logic: durations, sounds, notifications, storage, stats, verses
 ```
+
+## App Store listing (planned)
+
+The home-screen name stays short ("Sacred Focus"); the store *listing* carries
+the searchable keywords. Draft metadata for submission:
+
+- **Name (≤30 chars):** `Sacred Focus: Pomodoro Timer`
+- **Subtitle (≤30 chars):** `Catholic focus & prayer`
+- **Keywords (≤100 chars):** `pomodoro,focus,timer,catholic,christian,prayer,bible,scripture,study,productivity,faith,rosary`
 
 ## Roadmap
 
