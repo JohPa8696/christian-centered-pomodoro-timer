@@ -1,5 +1,6 @@
 import { View, Text, Pressable, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { CHANT_OPTIONS } from '../lib/chants';
 
 interface SettingsMenuProps {
   visible: boolean;
@@ -19,12 +20,16 @@ type Row = {
   action: 'stats' | 'sound' | 'durations' | 'chant' | null;
 };
 
-const ROWS: Row[] = [
+const ALL_ROWS: Row[] = [
   { icon: 'time-outline', label: 'Durations', sub: 'Focus & break lengths', action: 'durations' },
   { icon: 'leaf-outline', label: 'Break Chant', sub: 'Gregorian chant during breaks', action: 'chant' },
   { icon: 'musical-note', label: 'Alarm Sound', sub: 'Choose completion sound', action: 'sound' },
   { icon: 'stats-chart', label: 'Stats', sub: 'Focus history & streak', action: 'stats' },
 ];
+
+// Break Chant only appears once real chant audio ships (empty catalog would
+// dead-end — App Review guideline 2.1).
+const ROWS = ALL_ROWS.filter((row) => row.action !== 'chant' || CHANT_OPTIONS.length > 0);
 
 /**
  * Settings bottom-sheet — a single entry point that routes to Durations, Break
