@@ -107,3 +107,37 @@ Scripture verses during breaks.
 - **TestFlight / App Store** — needs dev build (EAS, no Xcode required) + Apple
   Developer account ($99/yr). User plans this ~next month.
 - Verse spot-check against a printed Catholic Bible recommended before submission.
+
+## Task Management
+
+This project uses structured task files for complex multi-step work (launches, migrations, etc.).
+
+**Location:** `.tasks/` directory
+
+**Current active task list:**
+- `.tasks/LAUNCH_CHECKLIST.md` — Complete guide for App Store submission
+
+**For AI agents:**
+
+When user asks "what's next" or "show me tasks":
+1. Read `.tasks/LAUNCH_CHECKLIST.md` (or relevant task file)
+2. Find tasks marked ⬜ Not Started or 🟡 In Progress
+3. Present next actionable task with clear objective
+
+When executing a task:
+1. Read full task section
+2. Follow steps sequentially
+3. Run commands exactly as written
+4. Verify acceptance criteria
+5. Update status emoji when complete
+
+**Task discovery:**
+```bash
+# Find incomplete tasks
+grep "Status: ⬜" .tasks/*.md
+
+# Show current phase
+head -20 .tasks/LAUNCH_CHECKLIST.md
+```
+
+See `~/Source/.claude/TASK_MANAGEMENT.md` for full system documentation.
